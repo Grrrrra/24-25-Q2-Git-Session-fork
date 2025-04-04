@@ -1,0 +1,58 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build C and C++ Files",
+			"dependsOn": ["C++: cl.exe", "C++: g++", "execute"],
+			"presentation": {
+				"reveal": "always"
+			}
+		},
+		{
+			"type": "cppbuild",
+			"label": "C++: cl.exe 활성 파일 빌드",
+			"command": "cl.exe",
+			"args": [
+				"/Zi",
+				"/EHsc",
+				"/nologo",
+				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"${file}"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": ["$msCompile"],
+			"group": "build"
+		},
+		{
+			"label": "C++: g++ 활성 파일 빌드",
+			"command": "g++",
+			"args": [
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"problemMatcher": {
+				"fileLocation": ["relative", "${workspaceRoot}"],
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			}
+		},
+		{
+			"label": "Execute C/C++ Binary",
+			"command": "cmd",
+			"group": "test",
+			"args": [
+				"/C",
+				"${fileDirname}\\${fileBasenameNoExtension}"
+			]
+		}
+	]
+}
